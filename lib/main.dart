@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'presentation/screens/main_page.dart';
+import 'core/presentation/screens/main_page.dart';
 
 void main() {
   runApp(const CourseApp());

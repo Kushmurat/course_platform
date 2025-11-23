@@ -15,7 +15,7 @@ class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    const HomeScreen(),
+    HomeScreen(),
     const MyCoursesScreen(),
     const FavoritesScreen(),
     ProfileScreen(),
@@ -44,9 +44,9 @@ class _MainPageState extends State<MainPage> {
             label: 'Обучение',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school_outlined),
-            activeIcon: Icon(Icons.school),
-            label: 'Мои курсы',
+            icon: Icon(Icons.search),
+            activeIcon: Icon(Icons.search),
+            label: 'Каталог',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite_outlined),
