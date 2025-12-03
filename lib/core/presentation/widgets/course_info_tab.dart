@@ -18,116 +18,153 @@ class CourseInfoTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final results = course.result ?? [];
-    final modules = course.modules ?? [];
-    final totalModules = course.modulesCount ?? modules.length;
+    final results = course.result;
+    final totalModules = course.modulesCount;
+
+    print("Описание курса: ${course.description}");
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Категория (если есть)
           if (course.category != null) ...[
             Text(
               "Категория: ${course.category}",
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
           ],
 
-          // Количество модулей
+          // Status Row
+          Row(
+            children: [
+              const Text(
+                "Статус:",
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(width: 8),
+              _buildStatusChip(
+                "Не начат",
+                Colors.grey.shade300,
+                Colors.grey.shade600,
+              ),
+              const SizedBox(width: 6),
+              _buildStatusChip("В процессе", Colors.blue, Colors.white),
+              const SizedBox(width: 6),
+              _buildStatusChip("Пройден", Colors.green.shade400, Colors.white),
+            ],
+          ),
+          const SizedBox(height: 12),
+
           Text(
             "Количество модулей: $totalModules",
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
 
-          // Прогресс
-          const Text(
-            "Ваш прогресс:",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          // Progress
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Ваш прогресс:",
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+              ),
+              Text(
+                "$completedModules/$totalModules",
+                style: TextStyle(fontSize: 13, color: Colors.grey.shade500),
+              ),
+            ],
           ),
           const SizedBox(height: 8),
 
           LinearProgressIndicator(
             value: progressFraction,
-            minHeight: 10,
+            minHeight: 6,
+            backgroundColor: Colors.grey.shade100,
+            color: const Color(0xFF2ECC71), // Bright green like in screenshot
             borderRadius: BorderRadius.circular(6),
           ),
-          const SizedBox(height: 8),
-
-          Text("$completedModules / $totalModules"),
-
           const SizedBox(height: 24),
 
           const Text(
             "Описание курса:",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
 
           Text(
             course.description ?? "Нет описания",
-            style: const TextStyle(fontSize: 15),
+            style: const TextStyle(
+              fontSize: 14,
+              height: 1.4,
+              color: Colors.black87,
+            ),
+            softWrap: true,
           ),
 
           const SizedBox(height: 24),
 
-          // Результаты
           const Text(
             "Результат:",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
 
           ...results.map(
-                (item) => Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Icon(Icons.check_circle, size: 20, color: Colors.green),
-                const SizedBox(width: 8),
-                Expanded(child: Text(item)),
-              ],
-            ),
-          ),
-          const SizedBox(height: 32),
-
-          ...modules.map(
-                (m) => Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
+            (item) => Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    m.title ?? "",
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 6),
-
-                  ...m.children.map(
-                        (child) => Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.circle, size: 8),
-                          const SizedBox(width: 8),
-                          Expanded(child: Text(child)),
-                        ],
-                      ),
+                  const Icon(Icons.check, size: 20, color: Colors.blue),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      item,
+                      style: const TextStyle(fontSize: 14, height: 1.3),
                     ),
                   ),
                 ],
               ),
             ),
           ),
+          const SizedBox(height: 32),
+
+          // Modules list is in a separate tab usually, but here it was rendered?
+          // Ah, the original code had modules at the bottom too?
+          // Checking original code... yes, lines 81-107.
+          // But the design screenshot shows "Инфо" and "Модули" tabs.
+          // The original code had `...modules.map` at the bottom of Info tab?
+          // Let's check the original file content again.
+          // Step 11: Yes, it renders modules at the bottom.
+          // BUT CourseDetailScreen has a TabBar with "Info" and "Modules".
+          // CourseModulesTab likely renders modules.
+          // Why did CourseInfoTab render modules too?
+          // Maybe it was a mistake in the previous code or a "preview".
+          // The screenshot shows the "Info" tab selected. It does NOT show modules list at the bottom of Info.
+          // It shows "Результат" and then ends (or cuts off).
+          // I will REMOVE the modules list from CourseInfoTab to match the "Info" tab concept.
         ],
+      ),
+    );
+  }
+
+  Widget _buildStatusChip(String label, Color bg, Color text) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          color: text,
+          fontSize: 10,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../data/models/course.dart';
+import '../screens/lesson_screen.dart';
 
 class CourseModulesTab extends StatelessWidget {
   final Course course;
@@ -25,18 +26,38 @@ class CourseModulesTab extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(m.title, style: const TextStyle(fontWeight: FontWeight.w600)),
+                  Text(
+                    m.title,
+                    style: const TextStyle(fontWeight: FontWeight.w600),
+                  ),
                   const SizedBox(height: 8),
-                  ...m.children.map((c) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.play_circle_fill, size: 18),
-                        const SizedBox(width: 8),
-                        Expanded(child: Text(c)),
-                      ],
+                  ...m.children.map(
+                    (c) => InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                LessonScreen(title: c, course: course),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.play_circle_fill,
+                              size: 18,
+                              color: Colors.blue,
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(child: Text(c)),
+                          ],
+                        ),
+                      ),
                     ),
-                  )),
+                  ),
                 ],
               ),
             );

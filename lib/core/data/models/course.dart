@@ -22,18 +22,16 @@ class Course {
   });
 
   factory Course.fromJson(Map<String, dynamic> json) {
+    print("JSON description: ${json["description"]}");
     return Course(
       id: json["id"],
       title: json["title"],
       image: json["image"],
       description: json["description"],
-
       result: json["result"] != null ? List<String>.from(json["result"]) : [],
-
       link: json["link"],
       modulesCount: json["modulesCount"] ?? 0,
       category: json["category"],
-
       modules: json["modules"] != null
           ? List<Module>.from(json["modules"].map((m) => Module.fromJson(m)))
           : [],

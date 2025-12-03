@@ -8,7 +8,8 @@ class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
   final double horizontalPadding = 16;
-  final apiService = ApiService(baseUrl: 'https://skill-lab-backend.onrender.com');
+
+  final ApiService apiService = ApiService(baseUrl: 'https://skill-lab-backend.onrender.com');
 
   @override
   Widget build(BuildContext context) {
@@ -69,17 +70,17 @@ class HomeScreen extends StatelessWidget {
                 ),
                 SliverPadding(
                   padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-                  sliver: SliverList.builder(
-                    itemCount: courses.length,
-                    itemBuilder: (context, index) {
-                      final course = courses[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
-                        child: CourseCard(
-                          course: course,
-                        ),
-                      );
-                    },
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                        final course = courses[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: CourseCard(course: course),
+                        );
+                      },
+                      childCount: courses.length,
+                    ),
                   ),
                 ),
               ],

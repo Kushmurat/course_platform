@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'core/presentation/screens/main_page.dart';
+import 'core/presentation/screens/splash_screen.dart';
 
 void main() {
   runApp(const CourseApp());
@@ -13,11 +13,8 @@ class CourseApp extends StatelessWidget {
     return MaterialApp(
       title: 'Course Platform',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: Colors.blueAccent,
-      ),
-      home: const MainPage(),
+      theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.blueAccent),
+      home: const SplashScreen(),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:course_platform/core/presentation/screens/home_screen.dart';
+import 'package:course_platform/core/presentation/screens/main_page.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -31,9 +31,9 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.forward();
 
     Timer(const Duration(milliseconds: 2000), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => HomeScreen()),
-      );
+      Navigator.of(
+        context,
+      ).pushReplacement(MaterialPageRoute(builder: (_) => const MainPage()));
     });
   }
 
@@ -53,19 +53,12 @@ class _SplashScreenState extends State<SplashScreen>
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [
-                  Color(0xFF2196F3),
-                  Color(0xFF0D47A1),
-                ],
+                colors: [Color(0xFF2196F3), Color(0xFF0D47A1)],
               ),
             ),
           ),
 
-          Positioned.fill(
-            child: Opacity(
-              opacity: 0.18,
-            ),
-          ),
+          Positioned.fill(child: Opacity(opacity: 0.18)),
           Center(
             child: FadeTransition(
               opacity: _fadeInOut,
@@ -108,4 +101,3 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 }
-

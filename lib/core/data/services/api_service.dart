@@ -9,23 +9,21 @@ class ApiService {
 
   Future<List<Course>> fetchCourses() async {
     final response = await http.get(Uri.parse('$baseUrl/courses/list'));
-
+    print("RAW JSON: ${response.body}");
     if (response.statusCode == 200) {
-      final decoded = jsonDecode(response.body);
-
-      if (decoded is List) {
-        return decoded.map((json) => Course.fromJson(json)).toList();
-      }
-      else if (decoded is Map<String, dynamic>) {
-        // сервер вернул один объект
-        return [Course.fromJson(decoded)];
-      }
-      else {
-        throw Exception("Unknown JSON format");
-      }
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.map((json) => Course.fromJson(json)).toList();
     } else {
-      throw Exception('Failed to load courses');
+      throw Exception('Ошибка загрузки списка курсов');
     }
   }
 
+  Future<Course> fetchCourse(int id) async {
+    final response = await http.get(Uri.parse('$baseUrl/courses/$id'));
+    if (response.statusCode == 200) {
+      return Course.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Ошибка загрузки курса $id');
+    }
+  }
 }
