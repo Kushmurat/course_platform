@@ -21,8 +21,6 @@ class CourseInfoTab extends StatelessWidget {
     final results = course.result;
     final totalModules = course.modulesCount;
 
-    print("Описание курса: ${course.description}");
-
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(

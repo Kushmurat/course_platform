@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'catalog_screen.dart';
 import 'favorites_screen.dart';
 import 'home_screen.dart';
-import 'my_courses_screen.dart';
 import 'profile_screen.dart';
 
 class MainPage extends StatefulWidget {
@@ -16,7 +16,7 @@ class _MainPageState extends State<MainPage> {
 
   final List<Widget> _screens = [
     HomeScreen(),
-    const MyCoursesScreen(),
+    const CatalogScreen(),
     const FavoritesScreen(),
     ProfileScreen(),
   ];
