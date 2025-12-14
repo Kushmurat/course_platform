@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../data/models/course.dart';
 import '../../data/services/api_service.dart';
 import '../../data/services/favorites_service.dart';
+import '../../data/services/basket_service.dart';
 import '../widgets/course_info_tab.dart';
 import '../widgets/course_modules_tab.dart';
 
@@ -22,6 +23,7 @@ class CourseDetailScreen extends StatefulWidget {
 class _CourseDetailScreenState extends State<CourseDetailScreen> {
   late Future<Course> _courseFuture;
   final FavoritesService _favoritesService = FavoritesService();
+  final BasketService _basketService = BasketService();
   bool _isFavorite = false;
 
   @override
@@ -184,6 +186,73 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                 ],
               );
             },
+          ),
+        ),
+        bottomNavigationBar: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: FutureBuilder<Course>(
+              future: _courseFuture,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return const SizedBox.shrink();
+                final course = snapshot.data!;
+
+                return Row(
+                  children: [
+                    if (course.price != null)
+                      Expanded(
+                        flex: 1,
+                        child: Text(
+                          course.price!,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1E73FF),
+                          ),
+                        ),
+                      ),
+                    Expanded(
+                      flex: 2,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          try {
+                            await _basketService.addToBasket(course.id);
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Курс добавлен в корзину'),
+                                ),
+                              );
+                            }
+                          } catch (e) {
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Ошибка: $e')),
+                              );
+                            }
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF1E73FF),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: const Text(
+                          'В корзину',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),

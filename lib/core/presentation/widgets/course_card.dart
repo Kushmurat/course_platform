@@ -13,9 +13,7 @@ class CourseCard extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (_) => CourseDetailScreen(course: course),
-          ),
+          MaterialPageRoute(builder: (_) => CourseDetailScreen(course: course)),
         );
       },
       child: Container(
@@ -49,15 +47,49 @@ class CourseCard extends StatelessWidget {
                 ),
               ),
             ),
-      
+
             const SizedBox(width: 12),
-      
+
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 8),
-      
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      if (course.category != null)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF1E73FF).withOpacity(0.12),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Text(
+                            course.category!,
+                            style: const TextStyle(
+                              color: Color(0xFF1E73FF),
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      if (course.price != null)
+                        Text(
+                          course.price!,
+                          style: const TextStyle(
+                            color: Color(0xFF1E73FF),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 6),
+
                   Text(
                     course.title,
                     style: const TextStyle(
@@ -67,9 +99,9 @@ class CourseCard extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-      
+
                   const SizedBox(height: 6),
-      
+
                   Text(
                     "Количество модулей: ${course.modulesCount}",
                     style: TextStyle(fontSize: 13, color: Colors.grey.shade600),

@@ -8,6 +8,7 @@ class Course {
   final int modulesCount;
   final List<Module> modules;
   final String? category;
+  final String? price;
 
   Course({
     required this.id,
@@ -19,6 +20,7 @@ class Course {
     required this.modulesCount,
     required this.modules,
     this.category,
+    this.price,
   });
 
   factory Course.fromJson(Map<String, dynamic> json) {
@@ -32,10 +34,22 @@ class Course {
       link: json["link"],
       modulesCount: json["modulesCount"] ?? 0,
       category: json["category"],
+      price: json["price"] != null ? "${_formatPrice(json["price"])} ₸" : null,
       modules: json["modules"] != null
           ? List<Module>.from(json["modules"].map((m) => Module.fromJson(m)))
           : [],
     );
+  }
+
+  static String _formatPrice(dynamic price) {
+    if (price is num) {
+      // Simple custom formatting to add spaces (e.g. 19990 -> 19 990)
+      return price.toString().replaceAllMapped(
+        RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+        (Match m) => '${m[1]} ',
+      );
+    }
+    return price.toString();
   }
 }
 

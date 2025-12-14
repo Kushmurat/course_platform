@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../data/models/course.dart';
-import 'course_chip.dart';
 
 class CourseInfoTab extends StatelessWidget {
   final Course course;

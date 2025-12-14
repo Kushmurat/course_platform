@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'core/data/services/auth_service.dart';
 import 'core/presentation/screens/splash_screen.dart';
 
 void main() {
-  runApp(const CourseApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) =>
+          AuthService(baseUrl: 'https://skill-lab-backend.onrender.com'),
+      child: const CourseApp(),
+    ),
+  );
 }
 
 class CourseApp extends StatelessWidget {

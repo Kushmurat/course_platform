@@ -3,6 +3,7 @@ import 'catalog_screen.dart';
 import 'favorites_screen.dart';
 import 'home_screen.dart';
 import 'profile_screen.dart';
+import 'cart_screen.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -18,6 +19,7 @@ class _MainPageState extends State<MainPage> {
     HomeScreen(),
     const CatalogScreen(),
     const FavoritesScreen(),
+    const CartScreen(),
     ProfileScreen(),
   ];
 
@@ -37,6 +39,7 @@ class _MainPageState extends State<MainPage> {
         selectedItemColor: Colors.blueAccent,
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
+        type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
@@ -50,8 +53,13 @@ class _MainPageState extends State<MainPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite_outlined),
-            activeIcon: Icon(Icons.favorite_outlined),
+            activeIcon: Icon(Icons.favorite),
             label: 'Избранное',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_basket_outlined),
+            activeIcon: Icon(Icons.shopping_basket),
+            label: 'Корзина',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),

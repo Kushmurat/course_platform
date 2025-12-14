@@ -68,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen>
                   const SizedBox(height: 18),
 
                   Text(
-                    'TechForge',
+                    'SkillLab',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 40,
