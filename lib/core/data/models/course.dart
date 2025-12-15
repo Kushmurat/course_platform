@@ -9,6 +9,7 @@ class Course {
   final List<Module> modules;
   final String? category;
   final String? price;
+  final List<Question> questions;
 
   Course({
     required this.id,
@@ -21,6 +22,7 @@ class Course {
     required this.modules,
     this.category,
     this.price,
+    this.questions = const [],
   });
 
   factory Course.fromJson(Map<String, dynamic> json) {
@@ -37,6 +39,11 @@ class Course {
       price: json["price"] != null ? "${_formatPrice(json["price"])} ₸" : null,
       modules: json["modules"] != null
           ? List<Module>.from(json["modules"].map((m) => Module.fromJson(m)))
+          : [],
+      questions: json["questions"] != null
+          ? List<Question>.from(
+              json["questions"].map((q) => Question.fromJson(q)),
+            )
           : [],
     );
   }
@@ -64,10 +71,41 @@ class Module {
     return Module(
       id: json["id"],
       title: json["title"],
-
       children: json["children"] != null
           ? List<String>.from(json["children"])
           : [],
+    );
+  }
+}
+
+class Question {
+  final int id;
+  final String title;
+  final List<Option> options;
+
+  Question({required this.id, required this.title, required this.options});
+
+  factory Question.fromJson(Map<String, dynamic> json) {
+    return Question(
+      id: json['id'],
+      title: json['title'],
+      options: json['options'] != null
+          ? List<Option>.from(json['options'].map((o) => Option.fromJson(o)))
+          : [],
+    );
+  }
+}
+
+class Option {
+  final String answerName;
+  final bool right;
+
+  Option({required this.answerName, required this.right});
+
+  factory Option.fromJson(Map<String, dynamic> json) {
+    return Option(
+      answerName: json['answerName'],
+      right: json['right'] ?? false,
     );
   }
 }
